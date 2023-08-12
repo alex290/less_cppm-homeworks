@@ -3,51 +3,41 @@
 class Triangle
 {
 public:
-	Triangle() {
-		a = 10; 
-		b = 20; 
-		c = 30;
-		A = 50; 
-		B = 60;
-		C = 70;
+	Triangle(int a, int b, int c, int A, int B, int C) {
+		a_ = a; 
+		b_ = b; 
+		c_ = c;
+		A_ = A; 
+		B_ = B;
+		C_ = C;
 		name = "Треугольник";
 	};
 
-	int get_a() { return a; };
-	int get_b() { return b; };
-	int get_c() { return c; };
-	int get_A() { return A; };
-	int get_B() { return B; };
-	int get_C() { return C; };
+	int get_a() { return a_; };
+	int get_b() { return b_; };
+	int get_c() { return c_; };
+	int get_A() { return A_; };
+	int get_B() { return B_; };
+	int get_C() { return C_; };
 	std::string get_name() { return name; };
 
-protected:
-	int a, b, c, A, B, C;
-	std::string name;
-
-};
-
-class Quadrangle : public Triangle
-{
-public:
-	Quadrangle() {
-		d = 40;
-		D = 80;
-		name = "Четырёхугольник";
+	virtual void print_info()
+	{
+		std::cout << "Стороны: a=" << get_a() << " b=" << get_b() << " c=" << get_c() << std::endl;
+		std::cout << "Углы: A=" << get_A() << " B=" << get_B() << " C=" << get_C() << std::endl << std::endl;
 	};
 
-	int get_d() { return d; };
-	int get_D() { return D; };
-
 protected:
-	int d, D;
+	int a_, b_, c_, A_, B_, C_;
+	std::string name;
+
 };
 
 class RectangularTriangle : public Triangle
 {
 public:
-	RectangularTriangle() {
-		C = 90;
+	RectangularTriangle(int a, int b, int c, int A, int B) : Triangle(a, b, c, A, B, 90)
+	{
 		name = "Прямоугольный треугольник";
 	};
 };
@@ -55,9 +45,8 @@ public:
 class IsoscelesTriangle : public Triangle
 {
 public:
-	IsoscelesTriangle() {
-		c = a;
-		C = A;
+	IsoscelesTriangle(int a, int b, int A, int B) : Triangle(a, b, a, A, B, A) 
+	{
 		name = "Равнобедренный треугольник";
 	};
 };
@@ -65,20 +54,49 @@ public:
 class EquilateralTriangle : public IsoscelesTriangle
 {
 public:
-	EquilateralTriangle() {
-		c = b = a = 30;
-		C = A = B;
+	EquilateralTriangle(int a) : IsoscelesTriangle(a, a, 60, 60)
+	{
 		name = "Равносторонний треугольник";
 	};
 };
 
-class Rectangle : public Quadrangle
+class Quadrangle : public Triangle
 {
 public:
-	Rectangle() {
-		a = c = 10;
-		b = d = 20;
-		C = B = A = D = 90;
+	Quadrangle(int a, int b, int c, int d, int A, int B, int C, int D) : Triangle(a, b, c, A, B, C)
+	{
+		d_ = d;
+		D_ = D;
+		name = "Четырёхугольник";
+	};
+
+	int get_d() { return d_; };
+	int get_D() { return D_; };
+
+	void print_info() override
+	{
+		std::cout << "Стороны: a=" << get_a() << " b=" << get_b() << " c=" << get_c() << " d=" << get_d() << std::endl;
+		std::cout << "Углы: A=" << get_A() << " B=" << get_B() << " C=" << get_C() << " D=" << get_D() << std::endl << std::endl;
+	};
+
+protected:
+	int d_, D_;
+};
+
+class Parallelogram : public Quadrangle
+{
+public:
+	Parallelogram(int a, int b, int A, int B) : Quadrangle(a, b, a, b, A, B, A, B)
+	{
+		name = "Параллелограмм";
+	};
+};
+
+class Rectangle : public Parallelogram
+{
+public:
+	Rectangle(int a, int b) : Parallelogram(a, b, 90, 90)
+	{
 		name = "Прямоугольник";
 	};
 };
@@ -86,82 +104,50 @@ public:
 class Square : public Rectangle
 {
 public:
-	Square() {
-		a = c = b;
+	Square(int a) : Rectangle(a, a)
+	{
 		name = "Квадрат";
-	};
-};
-
-class Parallelogram : public Rectangle
-{
-public:
-	Parallelogram() {
-		a = c = 20;
-		b = d = 30;
-		C = A = 30;
-		B = D = 40;
-		name = "Параллелограмм";
 	};
 };
 
 class Rhomb : public Parallelogram
 {
 public:
-	Rhomb() {
-		a = c = b;
+	Rhomb(int a, int A, int B) : Parallelogram(a, a, A, B)
+	{
 		name = "Ромб";
 	};
+};
+
+void print_info(Triangle* figure)
+{
+	std::cout << figure->get_name() << ": " << std::endl;
+	figure->print_info();
 };
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	Triangle triangle;
-	RectangularTriangle rectangularTriangle;
-	IsoscelesTriangle isoscelesTriangle;
-	EquilateralTriangle equilateralTriangle;
+	Triangle triangle(10, 20, 30, 50, 60, 70);
+	RectangularTriangle rectangularTriangle(10, 20, 30, 50, 60);
+	IsoscelesTriangle isoscelesTriangle(10, 20, 50, 60);
+	EquilateralTriangle equilateralTriangle(30);
 
-	Quadrangle quadrangle;
-	Rectangle rectangle;
-	Square square;
-	Parallelogram parallelogram;
-	Rhomb rhomb;
+	Quadrangle quadrangle(10, 20, 30, 40, 50, 60, 70, 80);
+	Rectangle rectangle(10, 20);
+	Square square(20);
+	Parallelogram parallelogram(20, 30, 30, 40);
+	Rhomb rhomb(30, 30, 40);
 
+	print_info(&triangle);
+	print_info(&rectangularTriangle);
+	print_info(&isoscelesTriangle);
+	print_info(&equilateralTriangle);
+	print_info(&quadrangle);
+	print_info(&rectangle);
+	print_info(&square);
+	print_info(&parallelogram);
+	print_info(&rhomb);
 
-	std::cout << triangle.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << triangle.get_a() << " b=" << triangle.get_b() << " c=" << triangle.get_c() << std::endl;
-	std::cout << "Углы: A=" << triangle.get_A() << " B=" << triangle.get_B() << " C=" << triangle.get_C() << std::endl << std::endl;
-
-	std::cout << rectangularTriangle.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << rectangularTriangle.get_a() << " b=" << rectangularTriangle.get_b() << " c=" << rectangularTriangle.get_c() << std::endl;
-	std::cout << "Углы: A=" << rectangularTriangle.get_A() << " B=" << rectangularTriangle.get_B() << " C=" << rectangularTriangle.get_C() << std::endl << std::endl;
-
-	std::cout << isoscelesTriangle.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << isoscelesTriangle.get_a() << " b=" << isoscelesTriangle.get_b() << " c=" << isoscelesTriangle.get_c() << std::endl;
-	std::cout << "Углы: A=" << isoscelesTriangle.get_A() << " B=" << isoscelesTriangle.get_B() << " C=" << isoscelesTriangle.get_C() << std::endl << std::endl;
-
-	std::cout << equilateralTriangle.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << equilateralTriangle.get_a() << " b=" << equilateralTriangle.get_b() << " c=" << equilateralTriangle.get_c() << std::endl;
-	std::cout << "Углы: A=" << equilateralTriangle.get_A() << " B=" << equilateralTriangle.get_B() << " C=" << equilateralTriangle.get_C() << std::endl << std::endl;
-
-	std::cout << quadrangle.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << quadrangle.get_a() << " b=" << quadrangle.get_b() << " c=" << quadrangle.get_c() << " d=" << quadrangle.get_d() << std::endl;
-	std::cout << "Углы: A=" << quadrangle.get_A() << " B=" << quadrangle.get_B() << " C=" << quadrangle.get_C() << " D=" << quadrangle.get_D() << std::endl << std::endl;
-
-	std::cout << rectangle.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << rectangle.get_a() << " b=" << rectangle.get_b() << " c=" << rectangle.get_c() << " d=" << rectangle.get_d() << std::endl;
-	std::cout << "Углы: A=" << rectangle.get_A() << " B=" << rectangle.get_B() << " C=" << rectangle.get_C() << " D=" << rectangle.get_D() << std::endl << std::endl;
-
-	std::cout << square.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << square.get_a() << " b=" << square.get_b() << " c=" << square.get_c() << " d=" << square.get_d() << std::endl;
-	std::cout << "Углы: A=" << square.get_A() << " B=" << square.get_B() << " C=" << square.get_C() << " D=" << square.get_D() << std::endl << std::endl;
-
-	std::cout << parallelogram.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << parallelogram.get_a() << " b=" << parallelogram.get_b() << " c=" << parallelogram.get_c() << " d=" << parallelogram.get_d() << std::endl;
-	std::cout << "Углы: A=" << parallelogram.get_A() << " B=" << parallelogram.get_B() << " C=" << parallelogram.get_C() << " D=" << parallelogram.get_D() << std::endl << std::endl;
-
-	std::cout << rhomb.get_name() << ": " << std::endl;
-	std::cout << "Стороны: a=" << rhomb.get_a() << " b=" << rhomb.get_b() << " c=" << rhomb.get_c() << " d=" << rhomb.get_d() << std::endl;
-	std::cout << "Углы: A=" << rhomb.get_A() << " B=" << rhomb.get_B() << " C=" << rhomb.get_C() << " D=" << rhomb.get_D() << std::endl << std::endl;
 }
 

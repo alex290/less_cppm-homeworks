@@ -11,25 +11,14 @@ public:
 	int get_sides_count() { return sides_count; }
 	std::string get_name() { return name; };
 
-	virtual void print_info() { 
-		std::cout << get_name() << ": " << std::endl;
-		if (check())
-		{
-			std::cout << "Правильная" << std::endl;
-		} 
-		else 
-		{
-			std::cout << "Неправильная" << std::endl;
-		}
-
-		std::cout << "Количество сторон: " << sides_count << std::endl;
-	};
+	virtual void print_info() {};
+	virtual bool check() { return true; };
 	
 
 protected:
 	int sides_count;
 	std::string name;
-	virtual bool check() { return true; };
+	
 
 };
 
@@ -55,15 +44,10 @@ public:
 	int get_C() { return C_; };
 
 	void print_info() override {
-		std::cout << std::endl;
-		Figure::print_info();
 		std::cout << "Стороны: a=" << get_a() << " b=" << get_b() << " c=" << get_c() << std::endl;
 		std::cout << "Углы: A=" << get_A() << " B=" << get_B() << " C=" << get_C() << std::endl << std::endl;
 	}
-
-protected:
-	int a_, b_, c_, A_, B_, C_;
-	bool check() override { 
+	bool check() override {
 		if ((A_ + B_ + C_) == 180)
 		{
 			return true;
@@ -73,6 +57,10 @@ protected:
 			return false;
 		}
 	};
+
+protected:
+	int a_, b_, c_, A_, B_, C_;
+	
 
 };
 
@@ -91,14 +79,11 @@ public:
 	int get_D() { return D_; };
 	
 	void print_info() override {
-		std::cout << std::endl;
-		Figure::print_info();
+		
 		std::cout << "Стороны: a=" << get_a() << " b=" << get_b() << " c=" << get_c() << " d=" << get_d() << std::endl;
 		std::cout << "Углы: A=" << get_A() << " B=" << get_B() << " C=" << get_C() << " D=" << get_D() << std::endl << std::endl;
 	}
 
-protected:
-	int d_, D_;
 	bool check() override {
 		if ((A_ + B_ + C_ + D_) == 360)
 		{
@@ -109,13 +94,18 @@ protected:
 			return false;
 		}
 	};
+
+protected:
+	int d_, D_;
+	
 };
 
 
 class RectangularTriangle : public Triangle
 {
 public:
-	RectangularTriangle(int a, int b, int c, int A, int B, int C) : Triangle(a, b, c, A, B, C) {
+	RectangularTriangle(int a, int b, int c, int A, int B) : Triangle(a, b, c, A, B, 90)
+	{
 		name = "Прямоугольный треугольник";
 	};
 
@@ -124,67 +114,43 @@ public:
 class IsoscelesTriangle : public Triangle
 {
 public:
-	IsoscelesTriangle(int a, int b, int c, int A, int B, int C) : Triangle(a, b, c, A, B, C)  {
+	IsoscelesTriangle(int a, int b, int A, int B) : Triangle(a, b, a, A, B, A)
+	{
 		name = "Равнобедренный треугольник";
 	};
-
-protected:
-	bool check() override {
-		if (Triangle::check() && a_ == c_ && A_ == C_)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 	
 };
 
 class EquilateralTriangle : public IsoscelesTriangle
 {
 public:
-	EquilateralTriangle(int a, int b, int c, int A, int B, int C) : IsoscelesTriangle(a, b, c, A, B, C) {
+	EquilateralTriangle(int a) : IsoscelesTriangle(a, a, 60, 60)
+	{
 		name = "Равносторонний треугольник";
 	};
 
-protected:
-	bool check() override {
-		if (IsoscelesTriangle::check() && a_ == b_ && A_ == B_)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+};
+
+class Parallelogram : public Quadrangle
+{
+public:
+	Parallelogram(int a, int b, int A, int B) : Quadrangle(a, b, a, b, A, B, A, B)
+	{
+		name = "Параллелограмм";
+	};
 
 };
 
 
 
-class Rectangle : public Quadrangle
+class Rectangle : public Parallelogram
 {
 public:
-	Rectangle(int a, int b, int c, int d, int A, int B, int C, int D) : Quadrangle(a, b, c, d, A, B, C, D) 
+	Rectangle(int a, int b) : Parallelogram(a, b, 90, 90)
 	{
 		name = "Прямоугольник";
 	};
 
-protected:
-	bool check() override {
-
-		if (Quadrangle::check() && a_ == c_ && b_ == d_ && A_ == B_ && B_ == C_ && C_ == D_  && D_ == 90)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	};
 };
 
 
@@ -192,71 +158,43 @@ protected:
 class Square : public Rectangle
 {
 public:
-	Square(int a, int b, int c, int d, int A, int B, int C, int D) : Rectangle(a, b, c, d, A, B, C, D)
+	Square(int a) : Rectangle(a, a)
 	{
 		name = "Квадрат";
 	};
 
-protected:
-	bool check() override
-	{
-		if (Rectangle::check() && a_ == b_)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 };
 
 
-class Parallelogram : public Rectangle
-{
-public:
-	Parallelogram(int a, int b, int c, int d, int A, int B, int C, int D) : Rectangle(a, b, c, d, A, B, C, D)
-	{
-		name = "Параллелограмм";
-	};
-
-protected:
-	bool check() override
-	{
-		if (Quadrangle::check() && a_ == c_ && b_ == d_ && A_ == C_ && B_ == D_)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-};
 
 
 class Rhomb : public Parallelogram
 {
 public:
-	Rhomb(int a, int b, int c, int d, int A, int B, int C, int D) : Parallelogram(a, b, c, d, A, B, C, D)
+	Rhomb(int a, int A, int B) : Parallelogram(a, a, A, B)
 	{
 		name = "Ромб";
 	};
 
-protected:
-	bool check() override
-	{
-		if (Quadrangle::check() && A_ == C_ && B_ == D_)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 };
+
+void print_info(Figure& figure)
+{
+	std::cout << std::endl;
+	std::cout << figure.get_name() << ": " << std::endl;
+
+	if (figure.check())
+	{
+		std::cout << "Правильная" << std::endl;
+	}
+	else
+	{
+		std::cout << "Неправильная" << std::endl;
+	}
+
+	std::cout << "Количество сторон: " << figure.get_sides_count() << std::endl;
+	figure.print_info();
+}
 
 
 int main()
@@ -264,32 +202,31 @@ int main()
 	setlocale(LC_ALL, "Russian");
 	Figure figure;
 	Triangle triangle(10, 20, 30, 50, 60, 70);
-	RectangularTriangle rectangularTriangleOne(10, 20, 30, 50, 60, 90);
-	RectangularTriangle rectangularTriangleTwo(10, 20, 30, 50, 40, 90);
-	IsoscelesTriangle isoscelesTriangle(10, 20, 10, 50, 60, 50);
-	EquilateralTriangle equilateralTriangle(30, 30, 30, 60, 60, 60);
+	RectangularTriangle rectangularTriangleOne(10, 20, 30, 50, 60);
+	RectangularTriangle rectangularTriangleTwo(10, 20, 30, 50, 40);
+	IsoscelesTriangle isoscelesTriangle(10, 20, 50, 60);
+	EquilateralTriangle equilateralTriangle(30);
 
 
 	Quadrangle quadrangle(10, 20, 30, 40, 50, 60, 70, 80);
-	Rectangle rectangle(10, 20, 10, 20, 90, 90, 90, 90);
-	Square square(20, 20, 20, 20, 90, 90, 90, 90);
-	Parallelogram parallelogram(20, 30, 20, 30, 30, 40, 30, 40);
+	Rectangle rectangle(10, 20);
+	Square square(20);
+	Parallelogram parallelogram(20, 30, 30, 40);
 
-	Rhomb rhomb(30, 30, 30, 30, 30, 40, 30, 40);
+	Rhomb rhomb(30, 30, 40);
 
-	figure.print_info();
-	triangle.print_info();
-	rectangularTriangleOne.print_info();
-	rectangularTriangleTwo.print_info();
-	isoscelesTriangle.print_info();
-	equilateralTriangle.print_info();
+	print_info(figure);
+	print_info(triangle);
+	print_info(rectangularTriangleOne);
+	print_info(rectangularTriangleTwo);
+	print_info(isoscelesTriangle);
+	print_info(equilateralTriangle);
 
-	quadrangle.print_info();
-	rectangle.print_info();
-	square.print_info();
-	parallelogram.print_info();
-	rhomb.print_info();
-	
+	print_info(quadrangle);
+	print_info(rectangle);
+	print_info(square);
+	print_info(parallelogram);
+	print_info(rhomb);
 
 }
 
