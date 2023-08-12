@@ -109,6 +109,17 @@ public:
 		name = "Прямоугольный треугольник";
 	};
 
+	bool check() override {
+		if (Triangle::check() && C_ == 90)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	};
+
 };
 
 class IsoscelesTriangle : public Triangle
@@ -117,6 +128,17 @@ public:
 	IsoscelesTriangle(int a, int b, int A, int B) : Triangle(a, b, a, A, B, A)
 	{
 		name = "Равнобедренный треугольник";
+	};
+
+	bool check() override {
+		if (Triangle::check() && a_ == c_ && A_ == C_)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	};
 	
 };
@@ -129,6 +151,17 @@ public:
 		name = "Равносторонний треугольник";
 	};
 
+	bool check() override {
+		if (IsoscelesTriangle::check() && a_ == b_ && A_ == B_ && A_ == 60)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	};
+
 };
 
 class Parallelogram : public Quadrangle
@@ -137,6 +170,17 @@ public:
 	Parallelogram(int a, int b, int A, int B) : Quadrangle(a, b, a, b, A, B, A, B)
 	{
 		name = "Параллелограмм";
+	};
+
+	bool check() override {
+		if (Quadrangle::check() && a_ == c_ && b_ == d_ && A_ == C_ && B_ == D_)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	};
 
 };
@@ -151,6 +195,17 @@ public:
 		name = "Прямоугольник";
 	};
 
+	bool check() override {
+		if (Parallelogram::check() && A_ == 90 && B_ == A_)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	};
+
 };
 
 
@@ -161,6 +216,17 @@ public:
 	Square(int a) : Rectangle(a, a)
 	{
 		name = "Квадрат";
+	};
+
+	bool check() override {
+		if (Rectangle::check() && a_ == b_ )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	};
 
 };
@@ -174,6 +240,17 @@ public:
 	Rhomb(int a, int A, int B) : Parallelogram(a, a, A, B)
 	{
 		name = "Ромб";
+	};
+
+	bool check() override {
+		if (Parallelogram::check() && a_ == b_)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	};
 
 };
