@@ -119,10 +119,10 @@ public:
 	};
 };
 
-void print_info(Triangle* figure)
+void print_info(Triangle& figure)
 {
-	std::cout << figure->get_name() << ": " << std::endl;
-	figure->print_info();
+	std::cout << figure.get_name() << ": " << std::endl;
+	figure.print_info();
 };
 
 int main()
@@ -139,15 +139,15 @@ int main()
 	Parallelogram parallelogram(20, 30, 30, 40);
 	Rhomb rhomb(30, 30, 40);
 
-	print_info(&triangle);
-	print_info(&rectangularTriangle);
-	print_info(&isoscelesTriangle);
-	print_info(&equilateralTriangle);
-	print_info(&quadrangle);
-	print_info(&rectangle);
-	print_info(&square);
-	print_info(&parallelogram);
-	print_info(&rhomb);
+	print_info(triangle);
+	print_info(rectangularTriangle);
+	print_info(isoscelesTriangle);
+	print_info(equilateralTriangle);
+	print_info(quadrangle);
+	print_info(rectangle);
+	print_info(square);
+	print_info(parallelogram);
+	print_info(rhomb);
 
 }
 
