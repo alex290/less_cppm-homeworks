@@ -27,35 +27,20 @@ protected:
 
 };
 
-class Quadrangle
+class Quadrangle : public Triangle
 {
 public:
 	Quadrangle() {
-		a = 10; 
-		b = 20; 
-		c = 30; 
 		d = 40;
-		A = 50; 
-		B = 60; 
-		C = 70; 
 		D = 80;
 		name = "Четырёхугольник";
 	};
 
-	int get_a() { return a; };
-	int get_b() { return b; };
-	int get_c() { return c; };
 	int get_d() { return d; };
-	int get_A() { return A; };
-	int get_B() { return B; };
-	int get_C() { return C; };
 	int get_D() { return D; };
-	std::string get_name() { return name; };
 
 protected:
-	int a, b, c, d, A, B, C, D;
-	std::string name;
-
+	int d, D;
 };
 
 class RectangularTriangle : public Triangle
