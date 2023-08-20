@@ -18,4 +18,6 @@ public:
 	bool operator>(Fraction& b);
 	bool operator<=(Fraction& b);
 	bool operator>=(Fraction& b);
+
+	
 };

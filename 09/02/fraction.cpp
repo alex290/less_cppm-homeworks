@@ -6,15 +6,6 @@ Fraction::Fraction(int numerator, int denominator)
 	denominator_ = denominator;
 }
 
-int Fraction::get_numerator()
-{
-	return numerator_;
-}
-
-int Fraction::get_denominator()
-{
-	return denominator_;
-}
 
 bool Fraction::operator==(Fraction& b)
 {
@@ -127,4 +118,10 @@ Fraction Fraction::operator--(int)
 	Fraction result = *this;
 	this->numerator_ -= this->denominator_;
 	return result;
+}
+
+
+std::string Fraction::to_string()
+{
+	return std::to_string(numerator_) + "/" + std::to_string(denominator_);
 }

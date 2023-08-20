@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <numeric>
+#include <string>
 
 class Fraction
 {
@@ -11,9 +12,6 @@ private:
 
 public:
 	Fraction(int numerator, int denominator);
-
-	int get_numerator();
-	int get_denominator();
 
 	bool operator==(Fraction& b);
 	bool operator!=(Fraction& b);
@@ -29,4 +27,6 @@ public:
 
 	Fraction operator++();
 	Fraction operator--(int);
+
+	std::string to_string();
 };
