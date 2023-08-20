@@ -39,7 +39,7 @@ int main()
     result = ++f1 * f2;
     std::cout << result.to_string() << '\n';
 
-    std::cout << "Значение дроби 1 = " << result.to_string() << '\n';
+    std::cout << "Значение дроби 1 = " << f1.to_string() << '\n';
 
 
     std::cout << f1.to_string() << "-- * " << f2.to_string() << " = ";
@@ -47,7 +47,7 @@ int main()
     std::cout << result.to_string() << '\n';
 
 
-    std::cout << "Значение дроби 1 = " << result.to_string() << '\n';
+    std::cout << "Значение дроби 1 = " << f1.to_string() << '\n';
 
 }
 
