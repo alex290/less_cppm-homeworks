@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef LEAVE_LIB_EXPORTS
+#ifdef LEAVELIB_EXPORTS
 #define LEAVE_LIB_API __declspec(dllexport)
 #else
 #define LEAVE_LIB_API __declspec(dllimport)
